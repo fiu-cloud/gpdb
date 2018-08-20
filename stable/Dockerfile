@@ -2,7 +2,7 @@ FROM centos:latest
 
 ENV     LD_LIBRARY_PATH=/usr/local/lib
 ENV     CXXFLAGS="-fPIC -march=native -O2"
-ENV	CFLAGS="-fPIC -march=native -O2"
+ENV	    CFLAGS="-fPIC -march=native -O2"
 
 RUN     yum install -y unzip which tar more util-linux-ng passwd openssh-clients openssh-server ed m4 wget sudo git net-tools iproute \
 	bison flex libc-dev make perl-devel python-devel \
@@ -64,6 +64,7 @@ RUN     cat /tmp/sysctl.conf.add >> /etc/sysctl.conf \
         && chmod 755 /usr/local/bin/gpdb-seg-entrypoint.sh \
         && /usr/sbin/groupadd gpadmin \
         && /usr/sbin/useradd gpadmin -g gpadmin -G wheel \
+        && echo "greenplum"|passwd --stdin root \
         && echo "greenplum"|passwd --stdin gpadmin \
         && echo "gpadmin        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers \
         && mv /tmp/bash_profile /home/gpadmin/.bash_profile \
@@ -93,6 +94,10 @@ EXPOSE 5432 22
 
 VOLUME /gpdata
 
-ENTRYPOINT ["gpdb-entrypoint.sh"]
+CMD ["gpdb-entrypoint.sh"]
 
-
+#docker build . -t fiucloud/gpdb
+#docker stop gpdb
+#docker rm gpdb
+#docker run --name gpdb -i -t -p 5432:5432 -d fiucloud/gpdb
+#docker exec -i -t gpdb /bin/bash

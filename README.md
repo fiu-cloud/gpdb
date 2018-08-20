@@ -1,3 +1,6 @@
+Based on https://github.com/bbotev01/gpdb5
+Modifications by Michael Walker
+
 # What is it? 
   
 Traditionally setting up a Greenplum cluster requires provisioning physical or virtual servers, setting kernel parameters, exchanging SSH keys, installing and configuring the software. All that assuming we have successfully compiled the source code. This project gets your Greenplum cluster up and running in a single command using Docker containers. All examples of Greenplum in a Docker container I have seen use the same container for the master and segments. This project implements a full fledged cluster using separate self-discovering Docker containers. The segments can be scaled at cluster creation to produce the desired size cluster. This allows deployment of the cluster not only on a single machine but possibly on Docker Swarm as well.  
